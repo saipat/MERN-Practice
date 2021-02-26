@@ -5,9 +5,9 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../../models/User');
 
-// router.get("/test", (req,res) => res.json({msg: "This is users route"}));
+router.get("/test", (req,res) => res.json({msg: "This is users route"}));
 router.post("/register", (req, res) => {
-    User.findOne({email: req.body.email})
+    User.findOne({ email: req.body.email })
         .then((user) => {
             if(user){
                 //Throw status 400 err if the user is already registered
@@ -27,8 +27,10 @@ router.post("/register", (req, res) => {
                         newUser.save()
                         .then(user => res.json(user))
                         .catch(err => console.log(err));
-                    })
+                    });
                 });
+
+                newUser.save().then(user => res.send(user)).catch(err =>res.send(err));
             }
         })
 });

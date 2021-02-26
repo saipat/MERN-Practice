@@ -4,11 +4,15 @@ const mongoose = require('mongoose');
 const express = require("express");
 const app = express();
 const db = require('./config/keys').mongoURI;
-
-const users = require('./routes/api/users');
-const tweets = require('./routes/api/tweets');
 //to parse the JSON that we send to the FE
 const bodyParser = require('body-parser');
+
+//Routes
+const users = require('./routes/api/users');
+const tweets = require('./routes/api/tweets');
+
+//Models
+const User = require('./models/User');
 
 mongoose
   .connect(db, { useNewUrlParser: true })
@@ -16,13 +20,21 @@ mongoose
   .catch(err => console.log(err));
 
 app.get("/", (req, res) => {
-    debugger;
+    // debugger;
+    const user = new User({
+        handle: 'test',
+        email: 'test@gmail.com',
+        password: 'test12345'
+    });
+    user.save();
     res.send('Hello World!!')
 });
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
 app.use("/api/users", users);
 app.use("/api/tweets", tweets);
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(bodyParser.json);
 
 
 //To deploy on Heroku || to run locally on port 5000
