@@ -6,6 +6,8 @@ const app = express();
 const db = require('./config/keys').mongoURI;
 //to parse the JSON that we send to the FE
 const bodyParser = require('body-parser');
+//to authenticate our token and construct private routes
+const passport = require('passport');
 
 //Routes
 const users = require('./routes/api/users');
@@ -32,6 +34,9 @@ app.get("/", (req, res) => {
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(passport.initialize());
+//to setup a configuration file for Passport
+require('./config/passport')(passport);
 
 app.use("/api/users", users);
 app.use("/api/tweets", tweets);
