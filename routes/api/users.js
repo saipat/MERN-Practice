@@ -21,7 +21,7 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
 })
 //new user registration
 router.post("/register", (req, res) => {
-    // const { errors, isValid } = validateRegisterInput(req.body);
+    const { errors, isValid } = validateRegisterInput(req.body);
 
     if(!isValid) {
         return res.status(400).json(errors);
@@ -66,11 +66,11 @@ router.post("/register", (req, res) => {
 
 //login functionality
 router.post("/login", (req, res) => {
-    // const { errors, isValid } = validateLoginInput(req.body);
+    const { errors, isValid } = validateLoginInput(req.body);
 
-    // if(!isValid){
-    //     return res.status(400).json(errors);
-    // }
+    if(!isValid){
+        return res.status(400).json(errors);
+    }
 
     const handle = req.body.handle;
     const password = req.body.password;
