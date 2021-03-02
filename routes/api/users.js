@@ -8,8 +8,8 @@ const passport = require('passport');
 
 const User = require('../../models/User');
 
-//test route
-router.get("/test", (req,res) => res.json({msg: "This is users route"}));
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 //private auth route
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -27,7 +27,6 @@ router.post("/register", (req, res) => {
         return res.status(400).json(errors);
     }
 
-
     User.findOne({ handle: req.body.handle })
         .then((user) => {
             if(user){
@@ -43,7 +42,7 @@ router.post("/register", (req, res) => {
 
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {
-                    if (err) throw err;
+                    // if (err) throw err;
                     newUser.password = hash;
                     newUser
                         .save()
@@ -72,13 +71,13 @@ router.post("/login", (req, res) => {
         return res.status(400).json(errors);
     }
 
-    const handle = req.body.handle;
+    const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({ handle })
+    User.findOne({ email })
         .then(user => {
             if(!user){
-                errors.handle = "This user does not exist";
+                errors.email = "This user does not exist";
                 return res.status(400).json(errors);
             }
             

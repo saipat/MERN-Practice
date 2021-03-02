@@ -12,11 +12,11 @@ const validateLoginInput = data => {
         errors.email = "Email is invalid. Please enter a valid email."
     }
 
-    if(!Validator.isEmpty(data.email)){
+    if(Validator.isEmpty(data.email)){
         errors.email = "Email is required.";
     }
 
-    if(!validator.isEmpty(data.password)){
+    if(validator.isEmpty(data.password)){
         errors.password = "Password is required.";
     }
 
