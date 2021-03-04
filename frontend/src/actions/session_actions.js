@@ -1,5 +1,5 @@
 import  * as APIUtil from '../util/session_api_util';
-import jwt_decode from 'jwt-decode';
+// import jwt_decode from 'jwt-decode';
 
 export const RECIEVE_USER_LOGOUT = 'RECIEVE_USER_LOGOUT';
 
